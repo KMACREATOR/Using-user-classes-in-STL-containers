@@ -4,9 +4,9 @@
 #include <string>
 #include <fstream>
 using namespace std;
-//Объект - студент (поля: ФИО, группа, номер зачетной книжки, массив 4-х оценок  за сессию)
-//Сортировка по ФИО
-//Исходный контейнер - list, копируем в vector
+//РћР±СЉРµРєС‚ - СЃС‚СѓРґРµРЅС‚ (РїРѕР»СЏ: Р¤РРћ, РіСЂСѓРїРїР°, РЅРѕРјРµСЂ Р·Р°С‡РµС‚РЅРѕР№ РєРЅРёР¶РєРё, РјР°СЃСЃРёРІ 4-С… РѕС†РµРЅРѕРє  Р·Р° СЃРµСЃСЃРёСЋ)
+//РЎРѕСЂС‚РёСЂРѕРІРєР° РїРѕ Р¤РРћ
+//РСЃС…РѕРґРЅС‹Р№ РєРѕРЅС‚РµР№РЅРµСЂ - list, РєРѕРїРёСЂСѓРµРј РІ vector
 
 class Student{
     public:
@@ -32,13 +32,13 @@ class Student{
     }
     }
     print(){
-        cout << "\nФИО: " << name << "\nГруппа: " << group << "\nЗачетка: " << zachetka << endl;
+        cout << "\nР¤РРћ: " << name << "\nР“СЂСѓРїРїР°: " << group << "\nР—Р°С‡РµС‚РєР°: " << zachetka << endl;
         for (auto pos: session){
             cout << session[pos];
         }
     }
     friend ostream& operator << (ostream& osm, Student& St){
-        osm << "\nФИО: " << St.name << "\nГруппа: " << St.group << "\nЗачетка: " << St.zachetka << endl;
+        osm << "\nР¤РРћ: " << St.name << "\nР“СЂСѓРїРїР°: " << St.group << "\nР—Р°С‡РµС‚РєР°: " << St.zachetka << endl;
         for (int i = 0; i < 4; ++i){
             osm << St.session[i];
         }
@@ -56,26 +56,24 @@ class Student{
 
 };
 
-
 int main(){
     ifstream infile("input.txt");
+    fstream outfile("output.txt");
     setlocale(LC_ALL, "RUS");
     cout << "Hello world!" << endl;
-    //создаем list
+    //СЃРѕР·РґР°РµРј list
     list <Student> origin;
     string name, group, zachetka;
     int session[4];
     while(!infile.eof()){
         getline(infile, name);
-        cout << name << "\t";
-
+//        cout << name << "\t";
         infile >> group;
         infile.ignore();
-        cout << group << "\t";
-
+//        cout << group << "\t";
         infile >> zachetka;
         infile.ignore();
-        cout << zachetka << "\t";
+//        cout << zachetka << "\t";
 
         for (int i = 0; i < 4; ++i){
                 infile >> session[i];
@@ -85,25 +83,31 @@ int main(){
         infile.ignore();
         origin.push_back(Student(name, group, zachetka, session));
     }
-    //сортируем с помощью sort без параметров
-    cout << "Исходный список до сортировки:\n";
+    //СЃРѕСЂС‚РёСЂСѓРµРј СЃ РїРѕРјРѕС‰СЊСЋ sort Р±РµР· РїР°СЂР°РјРµС‚СЂРѕРІ
+    cout << "РСЃС…РѕРґРЅС‹Р№ СЃРїРёСЃРѕРє РґРѕ СЃРѕСЂС‚РёСЂРѕРІРєРё:\n";
+    outfile << "РСЃС…РѕРґРЅС‹Р№ СЃРїРёСЃРѕРє РґРѕ СЃРѕСЂС‚РёСЂРѕРІРєРё:\n";
     for (auto iter = origin.begin(); iter != origin.end(); iter++)
     {
-        std::cout << *iter << "\t";
+        outfile << *iter << "\t";
+        cout << *iter << "\t";
     }
     vector <Student> legacy;
     legacy.resize(origin.size());
     copy(origin.begin(), origin.end(), legacy.begin());
-    cout << "Результат копирования в другой контейнер:\n";
+    cout << "Р РµР·СѓР»СЊС‚Р°С‚ РєРѕРїРёСЂРѕРІР°РЅРёСЏ РІ РґСЂСѓРіРѕР№ РєРѕРЅС‚РµР№РЅРµСЂ:\n";
+    outfile << "Р РµР·СѓР»СЊС‚Р°С‚ РєРѕРїРёСЂРѕРІР°РЅРёСЏ РІ РґСЂСѓРіРѕР№ РєРѕРЅС‚РµР№РЅРµСЂ:\n";
     for (auto iter = legacy.begin(); iter != legacy.end(); iter++)
     {
-        std::cout << *iter << "\t";
+        outfile << *iter << "\t";
+        cout << *iter << "\t";
     }
-    cout << "Исходный список после сортировки:\n";
+    cout << "РСЃС…РѕРґРЅС‹Р№ СЃРїРёСЃРѕРє РїРѕСЃР»Рµ СЃРѕСЂС‚РёСЂРѕРІРєРё:\n";
+    outfile << "РСЃС…РѕРґРЅС‹Р№ СЃРїРёСЃРѕРє РїРѕСЃР»Рµ СЃРѕСЂС‚РёСЂРѕРІРєРё:\n";
     origin.sort();
     for (auto iter = origin.begin(); iter != origin.end(); iter++)
     {
-        std::cout << *iter << "\t";
+        outfile << *iter << "\t";
+        cout << *iter << "\t";
     }
 
     return 0;
